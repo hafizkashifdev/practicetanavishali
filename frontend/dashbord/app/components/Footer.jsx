@@ -15,7 +15,7 @@ export default function Footer() {
       }}
     >
       <Typography variant="body2">
-        © {new Date().getFullYear()} Dashboard System — All Rights Reserved
+        ©  Dashboard System — All Rights Reserved
       </Typography>
     </Box>
   );

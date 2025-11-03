@@ -78,7 +78,6 @@ export default function DashboardPage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* Page Title */}
       <Typography
         variant="h4"
         fontWeight={700}
@@ -89,7 +88,6 @@ export default function DashboardPage() {
         Browse Our Products
       </Typography>
 
-      {/* Category Filter Tabs */}
       <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
         <Tabs
           value={selectedCategory}
@@ -116,11 +114,10 @@ export default function DashboardPage() {
         </Tabs>
       </Box>
 
-      {/*  Product Grid */}
       <Grid container spacing={4}>
         {filteredProducts.map((product, i) => (
         
-          <Grid item xs={12} sm={4} md={4} key={product.id}>
+          <Grid item xs={12} sm={3} md={4} key={product.id}>
             <motion.div
               variants={cardVariants}
               initial="hidden"
@@ -133,7 +130,6 @@ export default function DashboardPage() {
                 sx={{
                 
                   display: "flex",
-                  flexDirection: "column",
                   borderRadius: 1,
                   boxShadow: 3,
                   transition: "box-shadow 0.3s ease",
@@ -146,8 +142,6 @@ export default function DashboardPage() {
                   component={Link}
                   href={`/dashboard/product/${product.id}`}
                   sx={{
-                    // ✅ THIS LINE ALSO FIXES THE HEIGHT
-                    // It makes the clickable area fill the card.
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",

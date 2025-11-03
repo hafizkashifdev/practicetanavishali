@@ -21,12 +21,10 @@ import {
 import { motion } from "framer-motion"; 
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"; 
 
-// Helper function to calculate discounted price
 const getDiscountedPrice = (price, discount) => {
   return (price - (price * discount) / 100).toFixed(2);
 };
 
-// --- Animation Variants ---
 const mainFadeIn = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -99,7 +97,6 @@ export default function ProductDetails() {
               bgcolor: "background.paper",
             }}
           >
-            {/* Product Thumbnail */}
             <CardMedia
               component="img"
               image={product.thumbnail}
@@ -111,7 +108,6 @@ export default function ProductDetails() {
               }}
             />
 
-            {/* Product Info */}
             <CardContent sx={{ flex: 1, p: { xs: 3, md: 5 } }}>
               <Stack spacing={2}>
                 <Chip
@@ -274,7 +270,6 @@ export default function ProductDetails() {
           </Box>
         )}
 
-        {/*  Reviews Section */}
         <motion.div variants={mainFadeIn} initial="hidden" animate="visible">
           <Paper
             elevation={2}

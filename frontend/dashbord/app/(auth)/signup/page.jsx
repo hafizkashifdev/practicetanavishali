@@ -90,7 +90,6 @@ const Signup = () => {
           overflow: "hidden",
         }}
       >
-        {/* LEFT BOX */}
         <Box
           sx={{
             flex: 1,
@@ -124,7 +123,7 @@ const Signup = () => {
         <Box
           sx={{
             flex: 1,
-            bgcolor: "background.paper",
+            bgcolor: "background.default",
             p: { xs: 3, md: 4 },
             display: "flex",
             flexDirection: "column",
