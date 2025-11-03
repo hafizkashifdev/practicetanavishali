@@ -13,7 +13,7 @@ const theme = createTheme({
     },
     background: {
       default: "#f3f4f6",
-      paper: "#ffffff",
+      paper: "#e0f2f1",
     },
     text: {
       primary: "#1e293b",
@@ -24,8 +24,20 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Poppins, sans-serif",
-    button: {
+ fontFamily: "Poppins, sans-serif",
+
+    // Global font weights
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 600,
+
+    // Variant-specific overrides
+    h5: {
+      fontWeight: 600,
+      fontSize: "1.5rem",
+    },
+        button: {
       textTransform: "none",
       fontWeight: 600,
     },

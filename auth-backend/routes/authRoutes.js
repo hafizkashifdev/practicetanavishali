@@ -6,7 +6,7 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Temporary array to store refresh tokens (in real apps, store in DB)
+// Temporary in-memory storage for refresh tokens (store in DB in production)
 let refreshTokens = [];
 
 // ====================== SIGNUP ======================
@@ -38,9 +38,14 @@ router.post("/signup", async (req, res) => {
 
     res.status(201).json({
       message: "User created successfully",
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
       accessToken,
       refreshToken,
-      expiresIn: "30 seconds",
+      expiresIn: "60 seconds",
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -75,6 +80,11 @@ router.post("/login", async (req, res) => {
 
     res.status(200).json({
       message: "Login successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
       accessToken,
       refreshToken,
       expiresIn: "30 seconds",

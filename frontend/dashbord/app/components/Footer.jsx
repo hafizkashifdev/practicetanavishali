@@ -9,7 +9,7 @@ export default function Footer() {
         textAlign: "center",
         py: 2,
         mt: "auto",
-        bgcolor: "background.paper",
+        bgcolor: "background.default",
         color: "text.secondary",
         borderTop: "1px solid #e5e7eb",
       }}

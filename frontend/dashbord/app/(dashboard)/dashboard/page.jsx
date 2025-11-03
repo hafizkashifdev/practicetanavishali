@@ -78,7 +78,7 @@ export default function DashboardPage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* ✅ Page Title */}
+      {/* Page Title */}
       <Typography
         variant="h4"
         fontWeight={700}
@@ -89,7 +89,7 @@ export default function DashboardPage() {
         Browse Our Products
       </Typography>
 
-      {/* ✅ Category Filter Tabs */}
+      {/* Category Filter Tabs */}
       <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
         <Tabs
           value={selectedCategory}
@@ -99,8 +99,8 @@ export default function DashboardPage() {
           allowScrollButtonsMobile
           aria-label="product categories"
           sx={{
-            bgcolor: "background.paper",
-            borderRadius: 2,
+            bgcolor: "background.default",
+            borderRadius: 1,
             boxShadow: 1,
             px: 2,
           }}
@@ -116,23 +116,25 @@ export default function DashboardPage() {
         </Tabs>
       </Box>
 
-      {/* ✅ Product Grid */}
+      {/*  Product Grid */}
       <Grid container spacing={4}>
         {filteredProducts.map((product, i) => (
-          <Grid item xs={12} sm={6} md={4} key={product.id}>
+        
+          <Grid item xs={12} sm={4} md={4} key={product.id}>
             <motion.div
               variants={cardVariants}
               initial="hidden"
               animate="visible"
               custom={i}
+             
               style={{ height: "100%" }}
             >
               <Card
                 sx={{
-                  height: "100%",
+                
                   display: "flex",
                   flexDirection: "column",
-                  borderRadius: 3,
+                  borderRadius: 1,
                   boxShadow: 3,
                   transition: "box-shadow 0.3s ease",
                   "&:hover": {
@@ -144,6 +146,8 @@ export default function DashboardPage() {
                   component={Link}
                   href={`/dashboard/product/${product.id}`}
                   sx={{
+                    // ✅ THIS LINE ALSO FIXES THE HEIGHT
+                    // It makes the clickable area fill the card.
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
@@ -183,7 +187,7 @@ export default function DashboardPage() {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        mt: 2, // Added margin-top for spacing
+                        mt: 2,
                       }}
                     >
                       <Typography

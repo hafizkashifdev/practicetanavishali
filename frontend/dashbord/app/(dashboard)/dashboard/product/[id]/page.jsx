@@ -13,13 +13,13 @@ import {
   Grid,
   Chip,
   Paper,
-  Container, // ✅ Used Container for better padding and max-width
-  Button, // ✅ Added Button
-  Stack, // ✅ Added Stack for cleaner layouts
-  Avatar, // ✅ Added Avatar for reviews
+  Container, 
+  Button, 
+  Stack, 
+    Avatar, 
 } from "@mui/material";
-import { motion } from "framer-motion"; // ✅ Added framer-motion
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"; // ✅ Added an icon
+import { motion } from "framer-motion"; 
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"; 
 
 // Helper function to calculate discounted price
 const getDiscountedPrice = (price, discount) => {
@@ -51,7 +51,7 @@ export default function ProductDetails() {
   const [product, setProduct] =useState(null);
 
   useEffect(() => {
-    if (!id) return; // Guard clause if id is not ready
+    if (!id) return; 
     async function fetchProduct() {
       try {
         const res = await fetch(`https://dummyjson.com/products/${id}`);
@@ -72,7 +72,7 @@ export default function ProductDetails() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          bgcolor: "grey[50]", // ✅ Added BG color
+          bgcolor: "grey[50]", 
         }}
       >
         <CircularProgress color="primary" />
@@ -85,16 +85,16 @@ export default function ProductDetails() {
   );
 
   return (
-    <Box sx={{ py: 4, bgcolor: "grey[50]" }}> {/* ✅ Page background */}
+    <Box sx={{ py: 4, bgcolor: "grey[50]" }}>
       <Container maxWidth="lg">
-        {/* ✅ Product Card */}
+        {/*  Product Card */}
         <motion.div variants={mainFadeIn} initial="hidden" animate="visible">
           <Card
             sx={{
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
-              boxShadow: 4,
-              borderRadius: 4, // Slightly more rounded
+              boxShadow: 2,
+              borderRadius: 1, 
               overflow: "hidden",
               bgcolor: "background.paper",
             }}
@@ -106,7 +106,7 @@ export default function ProductDetails() {
               alt={product.title}
               sx={{
                 width: { xs: "100%", md: "40%" },
-                height: { xs: 300, md: 500 }, // Taller image
+                height: { xs: 300, md: 500 }, 
                 objectFit: "cover",
               }}
             />
@@ -137,10 +137,9 @@ export default function ProductDetails() {
                   {product.description}
                 </Typography>
 
-                {/* ✅ Price & Action Box */}
                 <Paper
                   variant="outlined"
-                  sx={{ p: 3, borderRadius: 2, bgcolor: "grey[50]" }}
+                  sx={{ p: 3, borderRadius: 1, bgcolor: "grey[50]" }}
                 >
                   <Stack spacing={2}>
                     <Box
@@ -153,7 +152,6 @@ export default function ProductDetails() {
                       <Typography
                         variant="h4"
                         color="primary.main"
-                        fontWeight={700}
                       >
                         ${discountedPrice}
                       </Typography>
@@ -168,7 +166,6 @@ export default function ProductDetails() {
                         label={`${product.discountPercentage}% OFF`}
                         color="error"
                         size="small"
-                        sx={{ fontWeight: 600 }}
                       />
                     </Box>
 
@@ -196,7 +193,6 @@ export default function ProductDetails() {
 
                 <Divider sx={{ my: 1 }} />
 
-                {/* ✅ Details Stack */}
                 <Stack spacing={1}>
                   <Typography variant="body2" color="text.secondary">
                     <b>Brand:</b> {product.brand}
@@ -224,7 +220,6 @@ export default function ProductDetails() {
           </Card>
         </motion.div>
 
-        {/* ✅ Product Gallery */}
         {product.images && product.images.length > 0 && (
           <Box sx={{ mt: 5 }}>
             <motion.div variants={mainFadeIn} initial="hidden" animate="visible">
@@ -251,12 +246,12 @@ export default function ProductDetails() {
                       <Paper
                         elevation={3}
                         sx={{
-                          borderRadius: 2,
+                          borderRadius: 1,
                           overflow: "hidden",
                           transition: "box-shadow 0.3s ease, transform 0.3s ease",
                           "&:hover": {
                             transform: "scale(1.05)",
-                            boxShadow: 8, // ✅ Enhanced hover
+                            boxShadow: 5, 
                           },
                         }}
                       >
@@ -279,15 +274,14 @@ export default function ProductDetails() {
           </Box>
         )}
 
-        {/* ✅ Reviews Section */}
+        {/*  Reviews Section */}
         <motion.div variants={mainFadeIn} initial="hidden" animate="visible">
           <Paper
             elevation={2}
-            sx={{ p: 3, mt: 5, borderRadius: 3, bgcolor: "background.paper" }}
+            sx={{ p: 3, mt: 5, borderRadius: 1, bgcolor: "background.default" }}
           >
             <Typography
               variant="h5"
-              fontWeight={600}
               color="text.primary"
               mb={2}
             >
@@ -304,7 +298,6 @@ export default function ProductDetails() {
                 product.reviews.map((r, i) => (
                   <motion.div variants={mainFadeIn} key={i}>
                     <Box sx={{ mb: 2 }}>
-                      {/* ✅ Improved Review Layout */}
                       <Stack direction="row" spacing={2} alignItems="center">
                         <Avatar
                           sx={{ bgcolor: "primary.main" }}
@@ -322,7 +315,7 @@ export default function ProductDetails() {
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        sx={{ mt: 1, pl: "56px" }} // Align with text
+                        sx={{ mt: 1, pl: "56px" }} 
                       >
                         {r.comment}
                       </Typography>

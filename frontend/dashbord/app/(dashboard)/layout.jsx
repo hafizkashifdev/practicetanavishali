@@ -18,7 +18,6 @@ export default function DashboardLayout({ children }) {
             bgcolor: "background.default",
           }}
         >
-          <Toolbar />
           {children}
         </Box>
         <Footer />

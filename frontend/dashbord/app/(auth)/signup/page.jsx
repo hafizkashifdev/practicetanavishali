@@ -45,7 +45,7 @@ const Signup = () => {
     setMessage("");
 
     try {
-      const res = await fetch("http://192.168.100.7:5000/api/auth/signup", {
+      const res = await fetch("http://192.168.0.62:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: firstName, email, password }),

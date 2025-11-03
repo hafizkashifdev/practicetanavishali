@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
        <ThemeProvider theme={theme}>
-          <CssBaseline /> {/* resets default browser styles */}
+          <CssBaseline /> {/* resets default browser style*/}
           {children}
         </ThemeProvider>
       </body>

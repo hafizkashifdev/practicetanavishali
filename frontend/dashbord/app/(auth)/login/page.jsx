@@ -25,7 +25,6 @@ const Login = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const router = useRouter();
-console.log('jngjn',router.pathname);
 
   const validateForm = () => {
     const newErrors = {};
@@ -49,20 +48,21 @@ console.log('jngjn',router.pathname);
     setLoading(true);
 
     try {
-      const res = await fetch("http://192.168.100.7:5000/api/auth/login", {
+      const res = await fetch("http://192.168.0.62:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
-console.log(res);
+console.log(data);
 
       if (res.ok) {
         setIsSuccess(true);
         setMessage("Login successful! Redirecting...");
-        localStorage.setItem("token", data.token);
-        setTimeout(() => router.push("/dashboard"), 1500);
+localStorage.setItem("accessToken", data.accessToken);
+  localStorage.setItem("refreshToken", data.refreshToken);
+  localStorage.setItem("user", JSON.stringify(data.user));         setTimeout(() => router.push("/dashboard"), 1500);
       } else {
         setIsSuccess(false);
         setMessage(data.message || "Invalid email or password.");

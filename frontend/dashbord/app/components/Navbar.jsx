@@ -1,28 +1,36 @@
 "use client";
-import { useState } from "react"; // ✅ Import useState
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   AppBar,
   Toolbar,
   Typography,
   IconButton,
-  Box,
   Stack,
   Avatar,
   Badge,
-  Menu, // ✅ Import Menu
-  MenuItem, // ✅ Import MenuItem
-  ListItemIcon, // ✅ Import ListItemIcon
-  Divider, // ✅ Import Divider
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person"; // ✅ Icon for Profile
+import PersonIcon from "@mui/icons-material/Person";
 
 export default function Navbar() {
-  // ✅ State and handlers for the user menu
   const [anchorEl, setAnchorEl] = useState(null);
+  const [user, setUser] = useState(null); 
   const open = Boolean(anchorEl);
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,11 +40,22 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+
+    handleClose();
+    router.push("/login");
+  };
+
+  const userInitial = user?.name ? user.name.charAt(0) : "U";
+
   return (
     <AppBar
       position="sticky"
       sx={{
-        bgcolor: "background.paper",
+        bgcolor: "background.default",
         color: "text.primary",
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
         zIndex: (theme) => theme.zIndex.drawer + 1,
@@ -44,20 +63,8 @@ export default function Navbar() {
       elevation={0}
     >
       <Toolbar>
-        {/* Mobile Menu Button */}
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{
-            mr: 2,
-            display: { xs: "flex", md: "none" },
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+       
 
-        {/* Dashboard Title */}
         <Typography
           variant="h6"
           component="div"
@@ -66,20 +73,9 @@ export default function Navbar() {
           Dashboard
         </Typography>
 
-        {/* --- Icons --- */}
         <Stack direction="row" spacing={1.5} alignItems="center">
-          {/* ✅ Desktop-Only Notifications */}
-          <IconButton
-            color="inherit"
-            aria-label="notifications"
-            sx={{ display: { xs: "none", md: "flex" } }}
-          >
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          
 
-          {/* ✅ Profile Avatar Button (Visible on all sizes) */}
           <IconButton
             onClick={handleClick}
             size="small"
@@ -93,14 +89,14 @@ export default function Navbar() {
                 height: 32,
                 bgcolor: "primary.main",
               }}
-              alt="User Name"
+              alt={user?.name || "User"}
             >
-              U
+              {userInitial}
             </Avatar>
           </IconButton>
         </Stack>
 
-        {/* ✅ User Dropdown Menu */}
+        {/* Dropdown Menu */}
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
@@ -110,6 +106,7 @@ export default function Navbar() {
           PaperProps={{
             elevation: 0,
             sx: {
+                              bgcolor: "background.default",
               overflow: "visible",
               filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
               mt: 1.5,
@@ -127,7 +124,7 @@ export default function Navbar() {
                 right: 14,
                 width: 10,
                 height: 10,
-                bgcolor: "background.paper",
+                bgcolor: "background.default",
                 transform: "translateY(-50%) rotate(45deg)",
                 zIndex: 0,
               },
@@ -138,26 +135,18 @@ export default function Navbar() {
         >
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
-              <PersonIcon fontSize="small" />
+              <PersonIcon fontSize="small" sx={{color:'primary.main'}} />
             </ListItemIcon>
-            Profile
+            {user ? user.name : "Profile"}
           </MenuItem>
-          {/* ✅ Mobile-Only Notifications Link */}
-          <MenuItem
-            onClick={handleClose}
-            sx={{ display: { xs: "flex", md: "none" } }}
-          >
-            <ListItemIcon>
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon fontSize="small" />
-              </Badge>
-            </ListItemIcon>
-            Notifications
-          </MenuItem>
+
+        
+
           <Divider />
-          <MenuItem onClick={handleClose}>
+
+          <MenuItem onClick={handleLogout}>
             <ListItemIcon>
-              <LogoutIcon fontSize="small" />
+      <LogoutIcon fontSize="small" sx={{ color: "error.main" }} />
             </ListItemIcon>
             Logout
           </MenuItem>
@@ -165,4 +154,4 @@ export default function Navbar() {
       </Toolbar>
     </AppBar>
   );
-}   
+}
