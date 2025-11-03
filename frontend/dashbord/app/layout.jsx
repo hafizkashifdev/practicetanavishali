@@ -1,0 +1,18 @@
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "./theme";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+       <ThemeProvider theme={theme}>
+          <CssBaseline /> {/* resets default browser styles */}
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
