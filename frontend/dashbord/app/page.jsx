@@ -1,4 +1,4 @@
-"use client"; // ✅ ADD THIS LINE
+"use client";  
 
 import Link from "next/link";
 import { Box, Typography, Button } from "@mui/material";
@@ -16,14 +16,13 @@ export default function HomePage() {
         p: 3,
       }}
     >
-      <Typography variant="h2" fontWeight={700} gutterBottom>
+      <Typography variant="h2"  gutterBottom>
         Welcome to the Homepage
       </Typography>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
-        This is your main route (`/`).
       </Typography>
       <Button
-        component={Link} // This will now work
+        component={Link} 
         href="/dashboard"
         variant="contained"
         size="large"
