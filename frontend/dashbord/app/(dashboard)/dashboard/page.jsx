@@ -20,20 +20,21 @@ import { motion } from "framer-motion";
 export default function DashboardPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await fetch("https://dummyjson.com/products");
-        const data = await res.json();
+        let data = await res.json();
+        data.products[0].title = null;
+      console.log();
+      
         setProducts(data.products);
-        const uniqueCategories = [
-          "All",
-          ...new Set(data.products.map((p) => p.category)),
-        ];
+        const uniqueCategories = [...new Set(data.products.map((p) => p.category))];
         setCategories(uniqueCategories);
+        setSelectedCategory(uniqueCategories[0]); // default: first category
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -47,10 +48,7 @@ export default function DashboardPage() {
     setSelectedCategory(newValue);
   };
 
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : products.filter((p) => p.category === selectedCategory);
+  const filteredProducts = products.filter((p) => p.category === selectedCategory);
 
   if (loading)
     return (
@@ -66,7 +64,6 @@ export default function DashboardPage() {
       </Box>
     );
 
-  // Animation Variants
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i) => ({
@@ -77,7 +74,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container  sx={{ py: 4 }}>
       <Typography
         variant="h4"
         fontWeight={700}
@@ -85,7 +82,7 @@ export default function DashboardPage() {
         mb={4}
         textAlign="center"
       >
-        Browse Our Products
+        Browse Products by Category
       </Typography>
 
       <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
@@ -108,33 +105,34 @@ export default function DashboardPage() {
               key={cat}
               label={cat.charAt(0).toUpperCase() + cat.slice(1)}
               value={cat}
-              sx={{ fontWeight: 600 }}
             />
           ))}
         </Tabs>
       </Box>
 
-      <Grid container spacing={4}>
-        {filteredProducts.map((product, i) => (
-        
-          <Grid item xs={12} sm={3} md={4} key={product.id}>
+      <Grid container spacing={4} >
+        {filteredProducts?.map((product, i) => (
+          <Grid item xs={12} sm={6} md={4} lg={3}  key={product.id}>
             <motion.div
               variants={cardVariants}
               initial="hidden"
               animate="visible"
               custom={i}
-             
               style={{ height: "100%" }}
             >
               <Card
                 sx={{
-                
+                  bgcolorcolor: "text.primary",
+                  height: "100%",
+                   width: 320, 
+                   mx: "auto",
                   display: "flex",
+                  flexDirection: "column",
                   borderRadius: 1,
-                  boxShadow: 3,
+                  boxShadow: 2,
                   transition: "box-shadow 0.3s ease",
                   "&:hover": {
-                    boxShadow: 6,
+                    boxShadow: 3,
                   },
                 }}
               >
@@ -145,7 +143,6 @@ export default function DashboardPage() {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "flex-start",
                   }}
                 >
                   <CardMedia
@@ -153,8 +150,8 @@ export default function DashboardPage() {
                     image={product.thumbnail}
                     alt={product.title}
                     sx={{
-                      height: { xs: 180, md: 220 },
-                      objectFit: "cover",
+                      objectFit: "cover", 
+                      
                     }}
                   />
                   <CardContent sx={{ flexGrow: 1, width: "100%" }}>
@@ -164,7 +161,7 @@ export default function DashboardPage() {
                       color="text.primary"
                       noWrap
                     >
-                      {product.title}
+                      {product?.title}
                     </Typography>
 
                     <Typography

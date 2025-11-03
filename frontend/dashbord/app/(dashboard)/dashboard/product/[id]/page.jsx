@@ -84,8 +84,15 @@ export default function ProductDetails() {
 
   return (
     <Box sx={{ py: 4, bgcolor: "grey[50]" }}>
-      <Container maxWidth="lg">
-        {/*  Product Card */}
+ <Button
+        href="/dashboard"
+        variant="contained"
+        size="medium"
+      >
+        Go to Dashboard
+      </Button> 
+                    
+                         <Container maxWidth="lg">
         <motion.div variants={mainFadeIn} initial="hidden" animate="visible">
           <Card
             sx={{
@@ -133,9 +140,9 @@ export default function ProductDetails() {
                   {product.description}
                 </Typography>
 
-                <Paper
+                <Paper 
                   variant="outlined"
-                  sx={{ p: 3, borderRadius: 1, bgcolor: "grey[50]" }}
+                  sx={{ p: 3, borderRadius: 1, bgcolor: "background.default" }}
                 >
                   <Stack spacing={2}>
                     <Box
@@ -177,13 +184,14 @@ export default function ProductDetails() {
 
                     <Button
                       variant="contained"
-                      size="large"
+                      size="medium"
                       startIcon={<AddShoppingCartIcon />}
                       disabled={product.stock === 0}
-                      sx={{ mt: 1, fontWeight: 600 }}
+                      sx={{ mt: 1 }}
                     >
                       Add to Cart
                     </Button>
+                     
                   </Stack>
                 </Paper>
 
@@ -208,7 +216,7 @@ export default function ProductDetails() {
                 {/* Tags */}
                 <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 1 }}>
                   {product.tags?.map((tag, i) => (
-                    <Chip key={i} label={tag} color="secondary" size="small" />
+                    <Chip key={i} label={tag} color="primary" size="small" />
                   ))}
                 </Box>
               </Stack>

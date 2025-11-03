@@ -67,8 +67,9 @@ export default function Navbar() {
 
         <Typography
           variant="h6"
+          
           component="div"
-          sx={{ flexGrow: 1, fontWeight: 600 }}
+          sx={{ flexGrow: 1, }}
         >
           Dashboard
         </Typography>
@@ -95,8 +96,7 @@ export default function Navbar() {
             </Avatar>
           </IconButton>
         </Stack>
-
-        {/* Dropdown Menu */}
+{/* drop down */}
         <Menu
           anchorEl={anchorEl}
           id="account-menu"

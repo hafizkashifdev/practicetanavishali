@@ -26,13 +26,11 @@ const theme = createTheme({
   typography: {
  fontFamily: "Poppins, sans-serif",
 
-    // Global font weights
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 600,
 
-    // Variant-specific overrides
     h5: {
       fontWeight: 600,
       fontSize: "1.5rem",
