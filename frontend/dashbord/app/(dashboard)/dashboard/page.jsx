@@ -27,14 +27,15 @@ export default function DashboardPage() {
     async function fetchData() {
       try {
         const res = await fetch("https://dummyjson.com/products");
-        let data = await res.json();
-        data.products[0].title = null;
-      console.log();
-      
+        console.log(res);
+        
+        const data = await res.json();
+        console.log(data);
+        
         setProducts(data.products);
         const uniqueCategories = [...new Set(data.products.map((p) => p.category))];
         setCategories(uniqueCategories);
-        setSelectedCategory(uniqueCategories[0]); // default: first category
+        setSelectedCategory(uniqueCategories[0]);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -48,7 +49,7 @@ export default function DashboardPage() {
     setSelectedCategory(newValue);
   };
 
-  const filteredProducts = products.filter((p) => p.category === selectedCategory);
+  const filteredProducts = products?.filter((p) => p.category === selectedCategory);
 
   if (loading)
     return (
@@ -74,7 +75,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <Container  sx={{ py: 4 }}>
+    <Container sx={{ py: 6 }}>
       <Typography
         variant="h4"
         fontWeight={700}
@@ -85,7 +86,7 @@ export default function DashboardPage() {
         Browse Products by Category
       </Typography>
 
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
         <Tabs
           value={selectedCategory}
           onChange={handleCategoryChange}
@@ -94,83 +95,94 @@ export default function DashboardPage() {
           allowScrollButtonsMobile
           aria-label="product categories"
           sx={{
-            bgcolor: "background.default",
-            borderRadius: 1,
+            bgcolor: "background.paper",
+            borderRadius: 3,
             boxShadow: 1,
-            px: 2,
+            px: { xs: 1, sm: 2 },
           }}
         >
-          {categories.map((cat) => (
+          {categories?.map((cat) => (
             <Tab
               key={cat}
               label={cat.charAt(0).toUpperCase() + cat.slice(1)}
               value={cat}
+              sx={{
+                textTransform: "capitalize",
+                px: 2,
+                py: 1,
+                fontWeight: 500,
+              }}
             />
           ))}
         </Tabs>
       </Box>
 
-      <Grid container spacing={4} >
+   
+      <Grid
+        container
+        justifyContent="center"
+        spacing={{ xs: 2, sm: 3, md: 4 }}
+      >
         {filteredProducts?.map((product, i) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}  key={product.id}>
+          <Grid
+            item
+            key={product.id}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            sx={{ display: "flex" }}
+          >
             <motion.div
-              variants={cardVariants}
+              custom={i}
               initial="hidden"
               animate="visible"
-              custom={i}
-              style={{ height: "100%" }}
+              variants={cardVariants}
+              style={{ width: "100%", display: "flex" }}
             >
               <Card
                 sx={{
-                  bgcolorcolor: "text.primary",
-                  height: "100%",
-                   width: 320, 
-                   mx: "auto",
+                  width: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  borderRadius: 1,
-                  boxShadow: 2,
-                  transition: "box-shadow 0.3s ease",
-                  "&:hover": {
-                    boxShadow: 3,
-                  },
+                  borderRadius: 3,
+                  boxShadow: 3,
+                  transition: "transform 0.3s",
+                  "&:hover": { transform: "scale(1.03)" },
                 }}
               >
                 <CardActionArea
                   component={Link}
                   href={`/dashboard/product/${product.id}`}
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
+                  sx={{ display: "flex", flexDirection: "column", height: "100%" }}
                 >
                   <CardMedia
                     component="img"
-                    image={product.thumbnail}
-                    alt={product.title}
+                    image={product?.thumbnail}
+                    alt={product?.title}
                     sx={{
-                      objectFit: "cover", 
-                      
+                      width: "100%",
+                      height: { xs: 180, sm: 200, md: 220 },
+                      objectFit: "cover",
+                      borderTopLeftRadius: 12,
+                      borderTopRightRadius: 12,
                     }}
                   />
-                  <CardContent sx={{ flexGrow: 1, width: "100%" }}>
+                  <CardContent sx={{ flexGrow: 1 }}>
                     <Typography
-                      variant="h6"
+                      variant="subtitle1"
                       fontWeight={600}
                       color="text.primary"
                       noWrap
                     >
                       {product?.title}
                     </Typography>
-
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      gutterBottom
                       sx={{ textTransform: "capitalize" }}
                     >
-                      {product.category}
+                      {product?.category}
                     </Typography>
 
                     <Box
@@ -186,11 +198,11 @@ export default function DashboardPage() {
                         color="primary.main"
                         fontWeight={700}
                       >
-                        ${product.price}
+                        ${product?.price}
                       </Typography>
                       <Rating
                         name="read-only"
-                        value={product.rating}
+                        value={product?.rating}
                         precision={0.5}
                         readOnly
                         size="small"

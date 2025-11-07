@@ -17,7 +17,7 @@ import { Email, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");                                                                                                                           
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://192.168.0.62:5000/api/auth/login", {
+      const res = await fetch("http://192.168.18.129:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -62,7 +62,8 @@ console.log(data);
         setMessage("Login successful! Redirecting...");
 localStorage.setItem("accessToken", data.accessToken);
   localStorage.setItem("refreshToken", data.refreshToken);
-  localStorage.setItem("user", JSON.stringify(data.user));         setTimeout(() => router.push("/dashboard"), 1500);
+  localStorage.setItem("user", JSON.stringify(data.user));    
+       setTimeout(() => router.push("/dashboard"), 1500);
       } else {
         setIsSuccess(false);
         setMessage(data.message || "Invalid email or password.");
@@ -76,211 +77,229 @@ localStorage.setItem("accessToken", data.accessToken);
     }
   };
 
-  return (
-    <Box
+return (
+  <Box
+    sx={{
+      minHeight: "100vh",
+      backgroundColor: "#f3f4f6",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      p: 2,
+    }}
+  >
+    <Card
       sx={{
-        minHeight: "100vh",
-        backgroundColor: "#f3f4f6",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        p: 2,
+        flexDirection: { xs: "column", md: "row" },
+        width: "100%",
+        maxWidth: 1000,
+        borderRadius: 1,
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+        overflow: "hidden",
+        position: "relative",
+       
+        backgroundImage: {
+          xs:  "url('/fairchance-drive-signup.avif')",
+          md: "none",
+        },
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      <Card
+     
+      <Box
         sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          width: "100%",
-          maxWidth: 1000,
-          borderRadius: 4,
-          boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-          overflow: "hidden",
+          display: { xs: "block", md: "none" },
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.5)",
+          zIndex: 1,
+        }}
+      />
+
+      
+      <Box
+        sx={{
+          flex: 1,
+          display: { xs: "none", md: "flex" },
+          backgroundImage: "url('/fairchance-drive-signup.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          position: "relative",
+          alignItems: "flex-end",
+          justifyContent: "center",
         }}
       >
-        {/* LEFT BOX */}
         <Box
           sx={{
-            flex: 1,
-            backgroundImage: "url('/fairchance-drive-signup.avif')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            position: "absolute",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+          }}
+        />
+        <Box
+          sx={{
             position: "relative",
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "center",
-            minHeight: { xs: 220, md: "auto" },
+            color: "#fff",
+            textAlign: "center",
+            px: 3,
+            py: 5,
           }}
         >
-          <Box
-            sx={{
-              position: "absolute",
-              inset: 0,
-              background: "rgba(0,0,0,0.5)",
-            }}
-          />
-          <Box
-            sx={{
-              position: "relative",
-              color: "#fff",
-              textAlign: "center",
-              px: 3,
-              py: 5,
-            }}
-          >
-            <Typography variant="h4" fontWeight="bold">
-              Welcome Back
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1, opacity: 0.85 }}>
-              Login to continue your journey with us.
-            </Typography>
+          <Typography variant="h4" fontWeight="bold">
+            Welcome Back
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 1, opacity: 0.85 }}>
+            Login to continue your journey with us.
+          </Typography>
+        </Box>
+      </Box>
+
+ 
+      <Box
+        sx={{
+          flex: 1,
+          backgroundColor: { xs: "rgba(255,255,255,0.95)", md: "#fff" },
+          p: { xs: 3, md: 3 },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <CardContent>
+          <Box textAlign="center">
+            <Box
+              component="img"
+              src="/shoplog.png"
+              alt="Logo"
+              sx={{ width: 160, mx: "auto" }}
+            />
           </Box>
-        </Box>
 
-        {/* RIGHT BOX */}
-        <Box
-          sx={{
-            flex: 1,
-            backgroundColor: "#fff",
-            p: { xs: 3, md: 3},
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <CardContent>
-            <Box textAlign="center">
-              <Box
-                component="img"
-                src="/shoplog.png"
-                alt="Logo"
-                sx={{ width: 160, mx: "auto",  }}
-              />
-            </Box>
+          <Typography
+            variant="h5"
+            fontWeight={700}
+            textAlign="center"
+            color="text.primary"
+          >
+            Welcome Back
+          </Typography>
+          <Typography
+            variant="body2"
+            textAlign="center"
+            color="text.secondary"
+            mb={3}
+          >
+            Please log in to access your account.
+          </Typography>
 
-            <Typography
-              variant="h5"
-              fontWeight={700}
-              textAlign="center"
-              color="text.primary"
+          <Box component="form" onSubmit={handleLogin}>
+         
+            <TextField
+              fullWidth
+              label="Email Address"
+              variant="outlined"
+              value={email}
+              placeholder="example@gmail.com"
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              error={!!errors.email}
+              helperText={errors.email}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Email color="primary" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+    
+            <TextField
+              fullWidth
+              label="Password"
+              variant="outlined"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              error={!!errors.password}
+              helperText={errors.password}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock color="primary" />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              size="large"
+              disabled={loading}
+              sx={{
+                mt: 3,
+                py: 1.3,
+                fontWeight: 600,
+                borderRadius: 2,
+                backgroundColor: "#1976d2",
+                "&:hover": { backgroundColor: "#1256a0" },
+              }}
             >
-              Welcome Back
-            </Typography>
+              {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
+            </Button>
+          </Box>
+
+      
+          {message && (
             <Typography
-              variant="body2"
-              textAlign="center"
-              color="text.secondary"
-              mb={3}
+              sx={{
+                mt: 3,
+                textAlign: "center",
+                color: isSuccess ? "green" : "error.main",
+                fontWeight: 500,
+              }}
             >
-              Please log in to access your account.
+              {message}
             </Typography>
+          )}
 
-            <Box component="form" onSubmit={handleLogin}>
-              {/* Email */}
-              <TextField
-                fullWidth
-                label="Email Address"
-                variant="outlined"
-                value={email}
-                placeholder="example@gmail.com"
-                onChange={(e) => setEmail(e.target.value)}
-                margin="normal"
-                error={!!errors.email}
-                helperText={errors.email}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email color='primary' />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              {/* Password */}
-              <TextField
-                fullWidth
-                label="Password"
-                variant="outlined"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                placeholder="password"
-                onChange={(e) => setPassword(e.target.value)}
-                margin="normal"
-                error={!!errors.password}
-                helperText={errors.password}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Lock color='primary' />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              {/* Button */}
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={loading}
-                sx={{
-                  mt: 3,
-                  py: 1.3,
-                  fontWeight: 600,
-                  borderRadius: 2,
-                  backgroundColor: "#1976d2",
-                  "&:hover": { backgroundColor: "#1256a0" },
-                }}
-              >
-                {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
-              </Button>
-            </Box>
-
-            {/* Feedback Message */}
-            {message && (
-              <Typography
-                sx={{
-                  mt: 3,
-                  textAlign: "center",
-                  color: isSuccess ? "green" : "error.main",
-                  fontWeight: 500,
-                }}
-              >
-                {message}
-              </Typography>
-            )}
-
-            <Typography
-              variant="body2"
-              textAlign="center"
-              color="text.secondary"
-              mt={3}
+          <Typography
+            variant="body2"
+            textAlign="center"
+            color="text.secondary"
+            mt={3}
+          >
+            Don’t have an account?{" "}
+            <Button
+              variant="text"
+              color="primary"
+              onClick={() => router.push("/signup")}
+              sx={{ textTransform: "none", fontWeight: 600 }}
             >
-              Don’t have an account?{" "}
-              <Button
-                variant="text"
-                color="primary"
-                onClick={() => router.push("/signup")}
-                sx={{ textTransform: "none", fontWeight: 600 }}
-              >
-                Sign Up
-              </Button>
-            </Typography>
-          </CardContent>
-        </Box>
-      </Card>
-    </Box>
-  );
+              Sign Up
+            </Button>
+          </Typography>
+        </CardContent>
+      </Box>
+    </Card>
+  </Box>
+);
+
 };
 
 export default Login;

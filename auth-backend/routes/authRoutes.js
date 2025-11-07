@@ -3,10 +3,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
+import { io } from "../server.js"; 
 
 const router = express.Router();
-
-// Temporary in-memory storage for refresh tokens (store in DB in production)
 let refreshTokens = [];
 
 // ====================== SIGNUP ======================
@@ -21,6 +20,12 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
+
+    io.emit("userAdded", {
+      id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+    });
 
     const accessToken = jwt.sign(
       { id: newUser._id, email: newUser.email },
@@ -52,7 +57,6 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// ====================== LOGIN ======================
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -78,6 +82,8 @@ router.post("/login", async (req, res) => {
 
     refreshTokens.push(refreshToken);
 
+    io.emit("userLoggedIn", { id: user._id, name: user.name, email: user.email });
+
     res.status(200).json({
       message: "Login successful",
       user: {
@@ -94,7 +100,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ====================== REFRESH TOKEN ======================
 router.post("/refresh", (req, res) => {
   const { token } = req.body;
 
@@ -120,17 +125,19 @@ router.post("/refresh", (req, res) => {
   });
 });
 
-// ====================== LOGOUT ======================
+router.get("/all-users", async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 router.post("/logout", (req, res) => {
   const { token } = req.body;
   refreshTokens = refreshTokens.filter((t) => t !== token);
   res.status(200).json({ message: "Logged out successfully" });
-});
-
-// ====================== GET ALL USERS ======================
-router.get("/users", verifyToken, async (req, res) => {
-  const users = await User.find().select("-password");
-  res.status(200).json(users);
 });
 
 export default router;

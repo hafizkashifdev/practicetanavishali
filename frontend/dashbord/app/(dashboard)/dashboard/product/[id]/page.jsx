@@ -88,6 +88,7 @@ export default function ProductDetails() {
         href="/dashboard"
         variant="contained"
         size="medium"
+        sx={{mb:5}}
       >
         Go to Dashboard
       </Button> 
@@ -213,7 +214,6 @@ export default function ProductDetails() {
                   </Typography>
                 </Stack>
 
-                {/* Tags */}
                 <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 1 }}>
                   {product.tags?.map((tag, i) => (
                     <Chip key={i} label={tag} color="primary" size="small" />
@@ -224,7 +224,7 @@ export default function ProductDetails() {
           </Card>
         </motion.div>
 
-        {product.images && product.images.length > 0 && (
+        {product?.images && product?.images.length > 0 && (
           <Box sx={{ mt: 5 }}>
             <motion.div variants={mainFadeIn} initial="hidden" animate="visible">
               <Typography

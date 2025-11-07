@@ -8,22 +8,23 @@ import {
   IconButton,
   Stack,
   Avatar,
-  Badge,
   Menu,
   MenuItem,
   ListItemIcon,
   Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 
-export default function Navbar() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [user, setUser] = useState(null); 
-  const open = Boolean(anchorEl);
+export default function Navbar({ onMenuClick }) {
+  const [anchorEl, setAnchorEl] = useState(null); 
+  const [mobileAnchorEl, setMobileAnchorEl] = useState(null); 
+  const [user, setUser] = useState(null);
   const router = useRouter();
+
+  const open = Boolean(anchorEl);
+  const mobileOpen = Boolean(mobileAnchorEl);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -32,19 +33,23 @@ export default function Navbar() {
     }
   }, []);
 
-  const handleClick = (event) => {
+  const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileClick = (event) => {
+    setMobileAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setMobileAnchorEl(null);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
-
     handleClose();
     router.push("/login");
   };
@@ -63,90 +68,71 @@ export default function Navbar() {
       elevation={0}
     >
       <Toolbar>
-       
-
-        <Typography
-          variant="h6"
-          
-          component="div"
-          sx={{ flexGrow: 1, }}
+        <IconButton
+          color="inherit"
+          aria-label="menu"
+          edge="start"
+          onClick={handleMobileClick} 
+          sx={{ mr: 2, display: { md: "none" } }}
         >
+          <MenuIcon />
+        </IconButton>
+
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
 
-        <Stack direction="row" spacing={1.5} alignItems="center">
-          
-
+        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ display: { xs: "none", md: "flex" } }}>
           <IconButton
-            onClick={handleClick}
+            onClick={handleAvatarClick}
             size="small"
             aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar
-              sx={{
-                width: 32,
-                height: 32,
-                bgcolor: "primary.main",
-              }}
-              alt={user?.name || "User"}
-            >
+            <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }} alt={user?.name || "User"}>
               {userInitial}
             </Avatar>
           </IconButton>
         </Stack>
-{/* drop down */}
+
         <Menu
           anchorEl={anchorEl}
-          id="account-menu"
           open={open}
           onClose={handleClose}
-          onClick={handleClose}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-                              bgcolor: "background.default",
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-              mt: 1.5,
-              "& .MuiAvatar-root": {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              "&:before": {
-                content: '""',
-                display: "block",
-                position: "absolute",
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: "background.default",
-                transform: "translateY(-50%) rotate(45deg)",
-                zIndex: 0,
-              },
-            },
-          }}
-          transformOrigin={{ horizontal: "right", vertical: "top" }}
-          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          PaperProps={{ sx: { mt: 1.5, bgcolor: "background.default" } }}
         >
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
-              <PersonIcon fontSize="small" sx={{color:'primary.main'}} />
+              <PersonIcon fontSize="small" sx={{ color: "primary.main" }} />
             </ListItemIcon>
             {user ? user.name : "Profile"}
           </MenuItem>
-
-        
-
           <Divider />
-
           <MenuItem onClick={handleLogout}>
             <ListItemIcon>
-      <LogoutIcon fontSize="small" sx={{ color: "error.main" }} />
+              <LogoutIcon fontSize="small" sx={{ color: "error.main" }} />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+
+        <Menu
+          anchorEl={mobileAnchorEl}
+          open={mobileOpen}
+          onClose={handleClose}
+          PaperProps={{ sx: { mt: 1.5, bgcolor: "background.default" } }}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <PersonIcon fontSize="small" sx={{ color: "primary.main" }} />
+            </ListItemIcon>
+            {user ? user.name : "Profile"}
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutIcon fontSize="small" sx={{ color: "error.main" }} />
             </ListItemIcon>
             Logout
           </MenuItem>
